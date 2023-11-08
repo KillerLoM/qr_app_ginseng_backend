@@ -1,0 +1,22 @@
+server:
+  port: 5050
+  email-admin: nguyenminhtam01632.fetel@gmail.com
+  password-email: xjoxgmzdldksingb
+
+spring:
+  security:
+    user:
+      password: 123
+      name: user
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    username: root
+    password: minhtam123
+    url: jdbc://localhost:3306/admin_management
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
