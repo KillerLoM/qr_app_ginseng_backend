@@ -16,11 +16,14 @@ import qr.app.backend.request.LoginRequest;
 import qr.app.backend.request.Validate;
 import qr.app.backend.response.LoginResponse;
 import qr.app.backend.service.ForgetPasswordService;
+import qr.app.backend.service.SignUpService;
 import qr.app.backend.utils.EmailUtil;
 import qr.app.backend.utils.JwtUtils;
 
+import java.util.Objects;
+
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/authenticate")
 public class AuthController {
     @Autowired
     private UserRepo userRepo;
@@ -41,27 +44,56 @@ public class AuthController {
         }
         if(new BCryptPasswordEncoder().matches(password, admin.getPassword())){
 
-            LoginResponse response = new LoginResponse(email, true, jwtUtils.generateToken(email),"ok");
+            LoginResponse response = new LoginResponse(email, true, jwtUtils.generateToken(email, admin.getRole()),"ok");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         else {
             return new ResponseEntity<>(LoginResponse.fail("PASSWORD IS NOT CORRECT"), HttpStatus.UNAUTHORIZED);
         }
     }
-    @PostMapping("/authenticate/validate-token")
+    @PostMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestBody Validate request){
-        String response = "";
+        boolean response ;
         try{
             response = jwtUtils.validateToken(request.getToken());
-        } catch (ExpiredJwtException e){
-            return new ResponseEntity<>("token is expired. Description: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
-        } catch(JwtException | IllegalArgumentException e){
-            return new ResponseEntity<>("invalid token. Description: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @PostMapping("/authenticate/forget-password")
-    public ResponseEntity<?> verifyAccount(@RequestBody UserDto admin){
-        return new ResponseEntity<>(forgetPasswordService.forgetPassword(admin.getEmail()),HttpStatus.OK);
+    @PostMapping("/forget-password")
+    public ResponseEntity<?> verifyAccount(@RequestBody UserDto admin) throws Exception {
+
+        String response;
+        try{
+            response = forgetPasswordService.forgetPassword(admin.getEmail());
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
+    @PostMapping("/verify-account")
+    public ResponseEntity<String> validateOtp(@RequestParam String otp,
+                                                @RequestBody LoginRequest request) throws Exception {
+        String response;
+
+        try{
+            response = forgetPasswordService.validateOtp(request.getEmail(),otp);
+
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @PutMapping("/changePassword")
+    public ResponseEntity<String>changePasswordHandle(@RequestParam String key, @RequestBody UserDto admin){
+        String response;
+        try{
+            response = forgetPasswordService.changePassword(key, admin.getEmail(), admin.getPassword());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

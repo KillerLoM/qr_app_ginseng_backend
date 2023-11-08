@@ -17,5 +17,6 @@ public class User {
     private String otp;
     private Long expiration_otp;
     private String token;
+    private String key_otp;
 }
 
