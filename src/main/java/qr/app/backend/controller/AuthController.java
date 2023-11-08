@@ -1,7 +1,5 @@
 package qr.app.backend.controller;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +10,11 @@ import qr.app.backend.config.PasswordEncode;
 import qr.app.backend.dto.UserDto;
 import qr.app.backend.model.User;
 import qr.app.backend.repo.UserRepo;
-import qr.app.backend.request.LoginRequest;
-import qr.app.backend.request.Validate;
+import qr.app.backend.dto.LoginDto;
+import qr.app.backend.dto.ValidateDto;
 import qr.app.backend.response.LoginResponse;
 import qr.app.backend.service.ForgetPasswordService;
-import qr.app.backend.service.SignUpService;
-import qr.app.backend.utils.EmailUtil;
 import qr.app.backend.utils.JwtUtils;
-
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin/authenticate")
@@ -35,7 +29,7 @@ public class AuthController {
     private ForgetPasswordService forgetPasswordService;
     @CrossOrigin(origins = "*")
     @PostMapping("/authenticate")
-    public ResponseEntity<LoginResponse> loginHandle(@RequestBody LoginRequest request){
+    public ResponseEntity<LoginResponse> loginHandle(@RequestBody LoginDto request){
         String password = request.getPassword();
         String email = request.getEmail();
         User admin = userRepo.findUserByEmail(email);
@@ -52,7 +46,7 @@ public class AuthController {
         }
     }
     @PostMapping("/validate-token")
-    public ResponseEntity<?> validateToken(@RequestBody Validate request){
+    public ResponseEntity<?> validateToken(@RequestBody ValidateDto request){
         boolean response ;
         try{
             response = jwtUtils.validateToken(request.getToken());
@@ -74,7 +68,7 @@ public class AuthController {
     }
     @PostMapping("/verify-account")
     public ResponseEntity<String> validateOtp(@RequestParam String otp,
-                                                @RequestBody LoginRequest request) throws Exception {
+                                                @RequestBody LoginDto request) throws Exception {
         String response;
 
         try{

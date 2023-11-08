@@ -1,4 +1,4 @@
-package qr.app.backend.request;
+package qr.app.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Validate {
+public class ValidateDto {
     private String otp;
     private String token;
 

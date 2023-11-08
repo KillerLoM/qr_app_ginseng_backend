@@ -50,7 +50,8 @@ public class ForgetPasswordService {
         User admin = adminRepo.findUserByOtp(otp);
         if(admin == admin1){
             if(now.getEpochSecond() - admin1.getExpiration_otp() < 60){
-                admin1.setKey_otp(generateRandomAPIKey());
+                String key = generateRandomAPIKey();
+                admin1.setKey_otp(key.substring(0, key.length()-1));
                 admin.setOtp("");
                 admin.setExpiration_otp(null);
                 adminRepo.save(admin1);

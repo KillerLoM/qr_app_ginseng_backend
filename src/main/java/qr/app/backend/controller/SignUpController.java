@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import qr.app.backend.dto.UserDto;
 import qr.app.backend.repo.UserRepo;
-import qr.app.backend.request.Validate;
 import qr.app.backend.service.SignUpService;
 import qr.app.backend.utils.JwtUtils;
 
