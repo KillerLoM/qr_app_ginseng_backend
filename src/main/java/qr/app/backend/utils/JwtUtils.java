@@ -11,13 +11,10 @@ import java.security.Key;
 import java.util.Date;
 @Component
 public class JwtUtils {
-    @Value("${server.secret-key}")
-    private String secretKey;
-    @Value("${server.expiration-time}")
+    private final Key secreteKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    @Value("${application.jwt.expiration-time}")
     private long EXPIRATION_TIME;
-    private Key key(){
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-    }
+
     public String generateToken(String email){
         Date now = new Date();
         Date expiryTime = new Date(now.getTime() + EXPIRATION_TIME);
@@ -26,23 +23,16 @@ public class JwtUtils {
                 .setSubject(email)
                 .setExpiration(expiryTime)
                 .setIssuedAt(now)
-                .signWith(key())
+                .signWith(secreteKey)
                 .compact();
 
     }
-    public String validateToken(String token) {
-        try{
+    public String validateToken(String token)  {
             Jwts.parserBuilder()
-                    .setSigningKey(key())
+                    .setSigningKey(secreteKey)
                     .build()
                     .parseClaimsJws(token);
             return "valid";
-        }catch(ExpiredJwtException ex){
-            return "token is expired";
-        }catch(JwtException e){
-            return "Failed";
-        }catch (IllegalArgumentException  e){
-            return "Token is not valid";
-        }
+
     }
 }

@@ -2,8 +2,10 @@ server:
   port: 5050
   email-admin: nguyenminhtam01632.fetel@gmail.com
   password-email: xjoxgmzdldksingb
-  secret-key: KYuc/HSY8HiuGuUp+vBPcsyLVFBWst/PxCv1O9aru2rxB162ahy7m7g26YdCvhN2Cczixks6ndOJ
-  expiration-time: 864000
+application:
+  jwt:
+    secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-time: 864000
 spring:
   jpa:
     hibernate:
