@@ -1,8 +1,15 @@
 package qr.app.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto {
+    private String email;
+    private String password;
 
-public class UserDto {}
+}
