@@ -1,4 +1,8 @@
 package qr.app.backend.dto;
 
-public class UserDto {
-}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+
+public class UserDto {}

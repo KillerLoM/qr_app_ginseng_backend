@@ -2,12 +2,9 @@ server:
   port: 5050
   email-admin: nguyenminhtam01632.fetel@gmail.com
   password-email: xjoxgmzdldksingb
-
+  secret-key: KYuc/HSY8HiuGuUp+vBPcsyLVFBWst/PxCv1O9aru2rxB162ahy7m7g26YdCvhN2Cczixks6ndOJ
+  expiration-time: 864000
 spring:
-  security:
-    user:
-      password: 123
-      name: user
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,6 +14,6 @@ spring:
   datasource:
     username: root
     password: minhtam123
-    url: jdbc://localhost:3306/admin_management
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/admin_management
 
