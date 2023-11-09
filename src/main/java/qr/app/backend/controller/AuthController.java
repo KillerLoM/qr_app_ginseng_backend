@@ -47,13 +47,12 @@ public class AuthController {
     }
     @PostMapping("/validate-token")
     public ResponseEntity<?> validateToken(@RequestBody ValidateDto request){
-        boolean response ;
         try{
-            response = jwtUtils.validateToken(request.getToken());
+             jwtUtils.validateToken(request.getToken());
         } catch (Exception e){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
     @PostMapping("/forget-password")
     public ResponseEntity<?> verifyAccount(@RequestBody UserDto admin) throws Exception {

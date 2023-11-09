@@ -29,7 +29,7 @@ public class SignUpController {
         String output = null;
         String token = tokenIn.substring(7);
         try {
-            if (jwtUtils.validateToken(token)) {
+            jwtUtils.validateToken(token);
                 try {
                     response = jwtUtils.getRoleFromToken(token);
                     System.out.println(response);
@@ -46,7 +46,6 @@ public class SignUpController {
                 } catch (Exception e) {
                     return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
                 }
-            }
             return new ResponseEntity<>(output, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);

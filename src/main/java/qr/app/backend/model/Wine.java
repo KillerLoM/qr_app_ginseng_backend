@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -31,5 +32,14 @@ public class Wine {
     private  String imagewine5;
     private String qr;
     private boolean is_hidden;
-
+    @ManyToOne
+    @JoinTable(name = "ginseng_wine",
+            joinColumns = @JoinColumn(name = "wine_id"),
+            inverseJoinColumns = @JoinColumn(name = "ginseng_id"))
+    private Ginseng ginseng;
+    @ManyToMany
+    @JoinTable(name = "ginseng_wine",
+            joinColumns = @JoinColumn(name = "wine_id"),
+            inverseJoinColumns = @JoinColumn(name = "ginseng_id"))
+    private List<Ginseng> ginsengs;
 }

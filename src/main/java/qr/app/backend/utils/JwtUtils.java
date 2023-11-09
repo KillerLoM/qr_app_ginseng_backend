@@ -28,7 +28,10 @@ public class JwtUtils {
                 .compact();
 
     }
-    public boolean validateToken(String token) throws Exception {
+    public void validateToken(String token) throws Exception {
+        if(token.startsWith("Bearer ")){
+            token = token.substring(7);
+        }
         try{
             Jwts.parserBuilder()
                     .setSigningKey(secreteKey)
@@ -41,7 +44,6 @@ public class JwtUtils {
         catch(JwtException | IllegalArgumentException e){
             throw new Exception("Token is not valid") ;
         }
-        return true;
     }
     public String getRoleFromToken(String token){
         try{

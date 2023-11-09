@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -11,22 +12,19 @@ import java.util.Date;
 public class Ginseng {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private int id;
-    @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
     private String certificate;
-    @Column(nullable = false)
     private Date created_date;
-    @Column(nullable = false)
     private String code;
     private String effect;
-    @Column(nullable = false)
     private String img1;
     private String img2;
     private String img3;
     private String img4;
     private String img5;
     private String more_info;
-
+    @OneToMany(mappedBy = "ginseng")
+    private List<Wine> wines;
 }
