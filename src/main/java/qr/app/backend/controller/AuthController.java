@@ -80,10 +80,10 @@ public class AuthController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
     @PutMapping("/changePassword")
-    public ResponseEntity<String>changePasswordHandle(@RequestParam String key, @RequestBody UserDto admin){
+    public ResponseEntity<String>changePasswordHandle(@RequestBody UserDto admin, ValidateDto validateDto){
         String response;
         try{
-            response = forgetPasswordService.changePassword(key, admin.getEmail(), admin.getPassword());
+            response = forgetPasswordService.changePassword(validateDto.getKey(), admin.getEmail(), admin.getPassword());
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.UNAUTHORIZED);
         }

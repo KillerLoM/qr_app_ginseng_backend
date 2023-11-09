@@ -12,5 +12,6 @@ import lombok.Setter;
 public class ValidateDto {
     private String otp;
     private String token;
+    private String key;
 
 }

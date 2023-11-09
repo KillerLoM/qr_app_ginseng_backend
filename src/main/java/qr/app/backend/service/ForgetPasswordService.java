@@ -32,7 +32,8 @@ public class ForgetPasswordService {
             throw new Exception( "Email not found");
         }
         String otp = otpUtils.generateOtp();
-        admin1.setOtp(otp);
+        String otpHashed = passwordEncode.encode(otp);
+        admin1.setOtp(otpHashed);
 
         long secondsEpoch = now.getEpochSecond();
         admin1.setExpiration_otp(secondsEpoch);
@@ -47,32 +48,33 @@ public class ForgetPasswordService {
     }
     public String validateOtp(String email, String otp) throws  Exception{
         User admin1 = adminRepo.findUserByEmail(email);
-        User admin = adminRepo.findUserByOtp(otp);
-        if(admin == admin1){
+        boolean check = new BCryptPasswordEncoder().matches(otp, admin1.getOtp());
+        if(check){
             if(now.getEpochSecond() - admin1.getExpiration_otp() < 60){
                 String key = generateRandomAPIKey();
-                admin1.setKey_otp(key.substring(0, key.length()-1));
-                admin.setOtp("");
-                admin.setExpiration_otp(null);
+                String keyHashed = passwordEncode.encode(key.substring(0, key.length()-1));
+                admin1.setKey_otp(keyHashed);
+                admin1.setOtp("");
+                admin1.setExpiration_otp(null);
                 adminRepo.save(admin1);
-                return admin1.getKey_otp();
+                return key;
             }
             else{
-                admin.setOtp("");
-                admin.setExpiration_otp(null);
+                admin1.setOtp("");
+                admin1.setExpiration_otp(null);
                 throw  new Exception("otp has been expired. Please send again!") ;
             }
         }
         else{
-            admin.setOtp("");
-            admin.setExpiration_otp(null);
+            admin1.setOtp("");
+            admin1.setExpiration_otp(null);
           throw new Exception("OTP is not valid!");
         }
     }
     public String changePassword(String key, String email, String password) throws Exception {
         User admin = adminRepo.findUserByEmail(email);
-        if(!Objects.equals(admin.getKey_otp(), key)){
-
+        if(new BCryptPasswordEncoder().matches(key, admin.getKey_otp())){
+            System.out.println(admin.getKey_otp());
             throw new Exception("Invalid statement");
         }
         String passwordHashed = passwordEncode.encode(password);
