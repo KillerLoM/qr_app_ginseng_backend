@@ -14,7 +14,7 @@ import qr.app.backend.utils.JwtUtils;
 
 @Controller
 @RequestMapping("admin/ginseng")
-public class AddController {
+public class AddGinsengController {
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
