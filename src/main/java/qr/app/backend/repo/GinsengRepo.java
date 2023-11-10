@@ -14,7 +14,7 @@ public interface GinsengRepo extends JpaRepository<Ginseng, Long > {
     Ginseng findGinsengByCode(String code);
     @NonNull
     @Override
-    Page<Ginseng>findAll(Pageable pageable);
+    Page<Ginseng>findAll(@NonNull Pageable pageable);
 
     List<Ginseng> findByCodeContainingOrNameContaining(String code, String name);
 }

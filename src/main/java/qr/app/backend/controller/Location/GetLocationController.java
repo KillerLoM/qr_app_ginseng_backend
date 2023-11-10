@@ -1,4 +1,4 @@
-package qr.app.backend.controller.Newspapers;
+package qr.app.backend.controller.Location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import qr.app.backend.model.Ginseng;
-import qr.app.backend.model.Newspapers;
+import qr.app.backend.model.Location;
 import qr.app.backend.repo.GinsengRepo;
-import qr.app.backend.repo.NewspapersRepo;
+import qr.app.backend.repo.LocationRepo;
 import qr.app.backend.response.GinsengResponse;
-import qr.app.backend.response.NewspapersResponse;
+import qr.app.backend.response.LocationResponse;
 import qr.app.backend.utils.JwtUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/news")
-public class GetNewspapers {
+@RequestMapping("admin/location")
+public class GetLocationController {
     @Autowired
-    private NewspapersRepo newsRepo;
+    private LocationRepo locationRepo;
     @Autowired
     private JwtUtils jwtUtils;
     @GetMapping("/get")
@@ -37,28 +37,27 @@ public class GetNewspapers {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        NewspapersResponse response = new NewspapersResponse();
-        response.setAmount((int) newsRepo.count());
+        LocationResponse response = new LocationResponse();
+        response.setAmount((int) locationRepo.count());
         PageRequest pageable = PageRequest.of(page, size);
-
-        LinkedList<Newspapers> newspapersList = new LinkedList<>(newsRepo.findAll(pageable).getContent());
-        response.setNewspapers(newspapersList);
+        LinkedList<Location> locationList = new LinkedList<>(locationRepo.findAll(pageable).getContent());
+        response.setLocations(locationList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/search")
-    public HttpEntity<?> searchGinseng(@RequestHeader(value = "Authorization")String token,
-                                       @RequestParam(required = false, defaultValue = "Kinh") String description,
-                                       @RequestParam(required = false, defaultValue = "B") String name){
-        NewspapersResponse response = new NewspapersResponse();
-        response.setAmount((int) newsRepo.count());
+    public HttpEntity<?> searchLocation(@RequestHeader(value = "Authorization")String token,
+                                       @RequestParam(required = false, defaultValue = "Quận ") String address,
+                                       @RequestParam(required = false, defaultValue = "Miền ") String description){
+        LocationResponse response = new LocationResponse();
+        response.setAmount((int) locationRepo.count());
         try{
             jwtUtils.validateToken(token);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        List<Newspapers> searchResult = newsRepo.findNewspapersByDescriptionContainingOrNameContaining(description, name);
+        List<Location> searchResult = (List<Location>) locationRepo.findLocationByAddressContainingOrDescriptionContaining(address, description);
         response.setAmount(searchResult.size());
-        response.setNewspapers(searchResult);
+        response.setLocations(searchResult);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
