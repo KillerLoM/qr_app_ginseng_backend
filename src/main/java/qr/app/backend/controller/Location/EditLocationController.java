@@ -26,7 +26,7 @@ public class EditLocationController {
     @Autowired
     private ModelMapper modelMapper;
     @PutMapping("/edit")
-    public ResponseEntity<String> updateProduct(@RequestHeader(value = "Authorization") String token, @RequestBody LocationDto locationDto) {
+    public ResponseEntity<String> updateLocation(@RequestHeader(value = "Authorization") String token, @RequestBody LocationDto locationDto) {
         try {
             jwtUtils.validateToken(token);
             Location location = locationRepo.findLocationByAddress(locationDto.getAddress());

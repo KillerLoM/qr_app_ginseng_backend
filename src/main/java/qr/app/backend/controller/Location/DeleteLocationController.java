@@ -21,7 +21,7 @@ public class DeleteLocationController {
     @Autowired
     private LocationRepo locationRepo;
     @DeleteMapping("")
-    public ResponseEntity<?> deleteGinsengByCode(@RequestHeader(value = "Authorization")String token,
+    public ResponseEntity<?> deleteLocationByCode(@RequestHeader(value = "Authorization")String token,
                                                  @RequestParam String address){
         try{
             jwtUtils.validateToken(token);
