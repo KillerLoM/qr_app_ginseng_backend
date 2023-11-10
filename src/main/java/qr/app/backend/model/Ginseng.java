@@ -19,11 +19,7 @@ public class Ginseng {
     private Date created_date;
     private String code;
     private String effect;
-    private String img1;
-    private String img2;
-    private String img3;
-    private String img4;
-    private String img5;
+    private String img;
     private String more_info;
     @OneToMany(mappedBy = "ginseng")
     private List<Wine> wines;

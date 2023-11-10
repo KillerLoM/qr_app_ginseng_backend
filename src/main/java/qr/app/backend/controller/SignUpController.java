@@ -27,16 +27,13 @@ public class SignUpController {
                                                @RequestBody UserDto userDto) {
         String response;
         String output = null;
-        String token = tokenIn.substring(7);
         try {
-            jwtUtils.validateToken(token);
+            jwtUtils.validateToken(tokenIn);
                 try {
-                    response = jwtUtils.getRoleFromToken(token);
-                    System.out.println(response);
+                    response = jwtUtils.getRoleFromToken(tokenIn);
                     if (Objects.equals(response, "Super_admin")) {
                         try {
                             output = signUp.SignUp(userDto);
-                            
                         } catch (Exception e) {
                             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
                         }

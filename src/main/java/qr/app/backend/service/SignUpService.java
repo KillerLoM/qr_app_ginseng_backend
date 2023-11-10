@@ -25,7 +25,7 @@ public class SignUpService {
         admin1.setName(userDto.getName());
         admin1.setEmail(userDto.getEmail());
         admin1.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        admin1.setRole("Admin");
+        admin1.setRole(userDto.getRole());
 
         if(userRepo.save(admin1).getId() > 1){
             return "OK";
