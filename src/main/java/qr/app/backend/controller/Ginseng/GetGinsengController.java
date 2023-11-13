@@ -19,27 +19,26 @@ import qr.app.backend.utils.JwtUtils;
 
 
 @Controller
-@RequestMapping("admin/ginseng")
+@RequestMapping("admin/ginseng/get")
 public class GetGinsengController {
     @Autowired
     private GinsengRepo ginsengRepo;
     @Autowired
     private JwtUtils jwtUtils;
-    @GetMapping("/get")
+    @GetMapping("")
     public HttpEntity<?> getGinseng(@RequestHeader(value = "Authorization")String token,
                                  @RequestParam(required = false, defaultValue = "10") int size,
                                  @RequestParam(required = false, defaultValue = "0") int page){
+        GinsengResponse response = new GinsengResponse();
         try{
             jwtUtils.validateToken(token);
+            response.setAmount((int) ginsengRepo.count());
+            PageRequest pageable = PageRequest.of(page, size);
+            LinkedList<Ginseng> ginsengList = new LinkedList<>(ginsengRepo.findAll(pageable).getContent());
+            response.setGinsengs(ginsengList);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        GinsengResponse response = new GinsengResponse();
-        response.setAmount((int) ginsengRepo.count());
-        PageRequest pageable = PageRequest.of(page, size);
-
-        LinkedList<Ginseng> ginsengList = new LinkedList<>(ginsengRepo.findAll(pageable).getContent());
-        response.setGinsengs(ginsengList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/search")

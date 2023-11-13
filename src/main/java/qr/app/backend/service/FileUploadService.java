@@ -52,6 +52,7 @@ public class FileUploadService {
             String filePath1 = "/assets/certificate/ginseng/" + file.getOriginalFilename();
             String contentType = file.getContentType();
             String ALLOWED_PDF_TYPES = "application/pdf";
+            assert contentType != null;
             if (!ALLOWED_PDF_TYPES.contains(contentType)) {
                 throw new Exception("The file is not supported. Support for pdf");
             }

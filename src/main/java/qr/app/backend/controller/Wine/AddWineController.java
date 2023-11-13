@@ -17,7 +17,7 @@ import qr.app.backend.utils.OTPUtils;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/wine")
+@RequestMapping("admin/wine/add")
 public class AddWineController {
     @Autowired
     private JwtUtils jwtUtils;
@@ -29,11 +29,10 @@ public class AddWineController {
     private GinsengRepo ginsengRepo;
     @Autowired
     private FileUploadService fileUploadService;
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<String> addWine(@RequestHeader(value = "Authorization", required = true) String token,
                                           @RequestPart Wine wine,
                                           @RequestPart("files") List<MultipartFile> files){
-        StringBuilder img = new StringBuilder();
         try {
             jwtUtils.validateToken(token);
 
@@ -48,13 +47,26 @@ public class AddWineController {
             }
             wine.setGinseng(ginseng);
             wine.setOtp(otpUtils.generateOtp());
-            for (MultipartFile file : files) {
-                String filePath = "";
-                filePath = fileUploadService.uploadImageWine(file);
-                img.append(filePath).append(";");
-
+            for (int i = 0; i < Math.min(files.size(), 5); i++) {
+                String filePath = fileUploadService.uploadImageWine(files.get(i));
+                switch (i) {
+                    case 0:
+                        wine.setImage(filePath);
+                        break;
+                    case 1:
+                        wine.setImage1(filePath);
+                        break;
+                    case 2:
+                        wine.setImage2(filePath);
+                        break;
+                    case 3:
+                        wine.setImage3(filePath);
+                        break;
+                    case 4:
+                        wine.setImage4(filePath);
+                        break;
+                }
             }
-            wine.setImage(img.toString());
         }catch(Exception e ){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }

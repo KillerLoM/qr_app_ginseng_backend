@@ -22,6 +22,8 @@ public class SignUpController {
     @Autowired
     private SignUpService signUp;
 
+
+
     @PostMapping("/register")
     public ResponseEntity<String> signUpHandle(@RequestHeader(value = "Authorization", required = true) String tokenIn,
                                                @RequestBody UserDto userDto) {
@@ -29,23 +31,15 @@ public class SignUpController {
         String output = null;
         try {
             jwtUtils.validateToken(tokenIn);
-                try {
-                    response = jwtUtils.getRoleFromToken(tokenIn);
-                    if (Objects.equals(response, "Super_admin")) {
-                        try {
-                            output = signUp.SignUp(userDto);
-                        } catch (Exception e) {
-                            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
-                    } else {
-                        return new ResponseEntity<>("You can not create new Admin", HttpStatus.UNAUTHORIZED);
-                    }
-                } catch (Exception e) {
-                    return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-                }
-            return new ResponseEntity<>(output, HttpStatus.OK);
+            response = jwtUtils.getRoleFromToken(tokenIn);
+            if (Objects.equals(response, "Super_admin")) {
+                output = signUp.SignUp(userDto);
+            } else {
+                return new ResponseEntity<>("You can not create new Admin", HttpStatus.UNAUTHORIZED);
+            }
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 }

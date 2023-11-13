@@ -5,7 +5,7 @@ server:
 application:
   jwt:
     secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-    expiration-time: 864000
+    expiration-time: 8640000
 spring:
   jpa:
     hibernate:
@@ -17,7 +17,7 @@ spring:
     username: root
     password: minhtam123
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/database_qr_app
+    url: jdbc:mysql://localhost:3306/data
   mail:
     host: smtp.gmail.com
     port: 587

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/ginseng")
+@RequestMapping("admin/ginseng/add")
 public class AddGinsengController {
 
     @Autowired
@@ -27,32 +27,46 @@ public class AddGinsengController {
     @Autowired
     private FileUploadService fileUploadService;
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity<String> addGinseng(@RequestHeader(value = "Authorization") String token,
                                              @RequestPart("ginseng") Ginseng ginseng,
                                              @RequestPart("files") List<MultipartFile> files,
                                              @RequestPart("file") MultipartFile certi) {
-        StringBuilder img = new StringBuilder();
-        String certificate ;
         try {
             jwtUtils.validateToken(token);
             Ginseng ginseng1 = ginsengRepo.findGinsengByCode(ginseng.getCode());
             if (ginseng1 != null) {
                 return new ResponseEntity<>("The code has been already exist.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            for (MultipartFile file : files) {
-                String filePath = "";
-                filePath = fileUploadService.uploadImageGinseng(file);
-                img.append(filePath).append(";");
 
+            // Upload images
+            for (int i = 0; i < Math.min(files.size(), 5); i++) {
+                String filePath = fileUploadService.uploadImageGinseng(files.get(i));
+                switch (i) {
+                    case 0:
+                        ginseng.setImg(filePath);
+                        break;
+                    case 1:
+                        ginseng.setImg1(filePath);
+                        break;
+                    case 2:
+                        ginseng.setImg2(filePath);
+                        break;
+                    case 3:
+                        ginseng.setImg3(filePath);
+                        break;
+                    case 4:
+                        ginseng.setImg4(filePath);
+                        break;
+                }
             }
-            certificate = fileUploadService.uploadCertificate(certi);
+            String certificate = fileUploadService.uploadCertificate(certi);
+            ginseng.setCertificate(certificate);
+            ginsengRepo.save(ginseng);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        ginseng.setImg(img.toString());
-        ginseng.setCertificate(certificate);
-        ginsengRepo.save(ginseng);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
 }

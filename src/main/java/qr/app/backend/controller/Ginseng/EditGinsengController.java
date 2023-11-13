@@ -15,7 +15,7 @@ import qr.app.backend.repo.GinsengRepo;
 import qr.app.backend.utils.JwtUtils;
 
 @Controller
-@RequestMapping("admin/ginseng")
+@RequestMapping("admin/ginseng/edit")
 public class EditGinsengController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class EditGinsengController {
     private GinsengRepo ginsengRepo;
     @Autowired
     private ModelMapper modelMapper;
-    @PutMapping("/edit")
+    @PutMapping("")
     public ResponseEntity<String> updateProduct(@RequestHeader(value = "Authorization") String token, @RequestBody GinsengDto ginseng) {
         boolean check;
         try {
