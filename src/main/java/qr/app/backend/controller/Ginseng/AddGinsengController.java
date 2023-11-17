@@ -28,7 +28,7 @@ public class AddGinsengController {
     private FileUploadService fileUploadService;
 
     @PostMapping("")
-    public ResponseEntity<String> addGinseng(@RequestHeader(value = "Authorization") String token,
+    public ResponseEntity<?> addGinseng(@RequestHeader(value = "Authorization") String token,
                                              @RequestPart("ginseng") Ginseng ginseng,
                                              @RequestPart("files") List<MultipartFile> files,
                                              @RequestPart("file") MultipartFile certi) {
@@ -63,7 +63,8 @@ public class AddGinsengController {
             String certificate = fileUploadService.uploadCertificate(certi);
             ginseng.setCertificate(certificate);
             ginsengRepo.save(ginseng);
-            return new ResponseEntity<>("OK", HttpStatus.OK);
+            String check = "ok";
+            return new ResponseEntity<>(check, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
