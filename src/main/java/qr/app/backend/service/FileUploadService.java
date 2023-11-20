@@ -3,6 +3,7 @@ package qr.app.backend.service;
 import jakarta.activation.MimetypesFileTypeMap;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import qr.app.backend.model.Ginseng;
 
 import java.awt.*;
 import java.io.File;
@@ -44,6 +45,9 @@ public class FileUploadService {
         } catch (IOException e) {
             throw new Exception(e.getMessage());
         }
+    }
+    public void handleUpload(Ginseng ginseng, String[] images, String certi){
+
     }
     public String uploadCertificate(MultipartFile file) throws IOException, Exception {
         String uploadDir = "D:\\GinSeng\\frontend\\qr_app\\src\\assets\\certificate\\ginseng";

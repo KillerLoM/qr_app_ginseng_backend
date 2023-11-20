@@ -18,13 +18,13 @@ public class DeleteGinsengController {
     private GinsengRepo ginsengRepo;
     @DeleteMapping("")
     public ResponseEntity<?> deleteGinsengByCode(@RequestHeader(value = "Authorization")String token,
-                                                 @RequestParam String code){
+                                                 @RequestParam Long id){
         try{
             jwtUtils.validateToken(token);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        Ginseng ginseng = ginsengRepo.findGinsengByCode(code);
+        Ginseng ginseng = ginsengRepo.findGinsengById(id);
         if(ginseng == null){
             return new ResponseEntity<>("NOT FOUND", HttpStatus.INTERNAL_SERVER_ERROR);
         }

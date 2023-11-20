@@ -41,6 +41,18 @@ public class GetGinsengController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @GetMapping("/detail")
+    public HttpEntity<?> getGinseng(@RequestHeader(value = "Authorization")String token,
+                                    @RequestParam()Long id){
+        System.out.println(1);
+        try{
+            jwtUtils.validateToken(token);
+            Ginseng ginseng = ginsengRepo.findGinsengById(id);
+            return new ResponseEntity<>(ginseng, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
     @GetMapping("/search")
     public HttpEntity<?> searchGinseng(@RequestHeader(value = "Authorization")String token,
                                     @RequestParam(required = false, defaultValue = "NS") String code,

@@ -24,5 +24,7 @@ spring:
     port: 587
     username: nguyenminhtam01632.fetel@gmail.com
     password: xjoxgmzdldksingb
-
-
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 20MB
