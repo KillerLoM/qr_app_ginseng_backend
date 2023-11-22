@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import qr.app.backend.dto.WineDto;
 import qr.app.backend.model.Ginseng;
@@ -15,6 +16,7 @@ import qr.app.backend.repo.WineRepo;
 import qr.app.backend.utils.JwtUtils;
 
 @Controller
+@RequestMapping("admin/wine/delete")
 public class DeleteWineController {
 
     @Autowired

@@ -13,6 +13,7 @@ import java.util.List;
 public interface GinsengRepo extends JpaRepository<Ginseng, Long > {
     Ginseng findGinsengByCode(String code);
     Ginseng findGinsengById(Long id);
+
     @NonNull
     @Override
     Page<Ginseng>findAll(@NonNull Pageable pageable);

@@ -13,8 +13,9 @@ import java.util.List;
 public class Wine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_wine;
+    private Long id_wine;
     private String codewine;
+    private String name;
     private String namewine;
     private String otp;
     private  String image;

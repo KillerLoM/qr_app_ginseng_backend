@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import qr.app.backend.model.Ginseng;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class WineDto {
     private String codewine;
     private String namewine;
@@ -24,4 +24,6 @@ public class WineDto {
     private  String imagewine5;
     private String qr;
     private boolean is_hidden;
+    private Ginseng ginseng;
+    private List<Ginseng> ginsengs;
 }

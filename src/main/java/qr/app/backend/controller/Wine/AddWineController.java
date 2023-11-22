@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import qr.app.backend.dto.WineDto;
 import qr.app.backend.model.Ginseng;
 import qr.app.backend.model.Wine;
 import qr.app.backend.repo.GinsengRepo;
@@ -67,10 +68,12 @@ public class AddWineController {
                         break;
                 }
             }
+            wineRepo.save(wine);
         }catch(Exception e ){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        wineRepo.save(wine);
+        System.out.println(wine.getNamewine());
+
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 

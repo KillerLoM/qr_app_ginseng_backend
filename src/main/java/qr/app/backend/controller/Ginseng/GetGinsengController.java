@@ -3,7 +3,9 @@ package qr.app.backend.controller.Ginseng;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +43,22 @@ public class GetGinsengController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @GetMapping("/code")
+    public HttpEntity<?> getGinseng(@RequestHeader(value = "Authorization")String token){
+        System.out.println(1);
+        try{
+            jwtUtils.validateToken(token);
+            Pageable pageable = Pageable.unpaged();
+            Page<Ginseng> page = ginsengRepo.findAll(pageable);
+            List<Ginseng> elements = page.getContent();
+            return new ResponseEntity<>(elements, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
     @GetMapping("/detail")
     public HttpEntity<?> getGinseng(@RequestHeader(value = "Authorization")String token,
                                     @RequestParam()Long id){
-        System.out.println(1);
         try{
             jwtUtils.validateToken(token);
             Ginseng ginseng = ginsengRepo.findGinsengById(id);
