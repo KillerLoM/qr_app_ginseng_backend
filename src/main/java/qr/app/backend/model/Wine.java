@@ -23,9 +23,16 @@ public class Wine {
     private  String image2;
     private  String image3;
     private  String image4;
-    private  String volumewine;
+    private String volumewine;
+    private  int cc;
     private Date created_date;
     private boolean is_hidden;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String effect;
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String moreinfo;
     @ManyToOne
     @JoinTable(name = "ginseng_wine",
             joinColumns = @JoinColumn(name = "wine_id"),

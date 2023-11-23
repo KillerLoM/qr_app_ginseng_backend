@@ -33,7 +33,7 @@ public class Ginseng {
     @Column(columnDefinition = "TEXT")
     private String more_info;
     @Formula("(SELECT COUNT(*) FROM ginseng_wine gw WHERE gw.ginseng_id = id)")
-    private int appearanceCount;
+    private Integer appearanceCount;
     @JsonIgnore
     @OneToMany(mappedBy = "ginseng")
     private List<Wine> wines;

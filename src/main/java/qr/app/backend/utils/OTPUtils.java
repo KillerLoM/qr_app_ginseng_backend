@@ -1,9 +1,10 @@
 package qr.app.backend.utils;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-@Service
+@Component
 public class OTPUtils {
     public String generateOtp(){
         Random random = new Random();

@@ -38,11 +38,12 @@ public class EditGinsengController {
             jwtUtils.validateToken(token);
             Ginseng ginseng1 = ginsengRepo.findGinsengByCode(ginseng.getCode());
             if (ginseng1 == null) {
-                return new ResponseEntity<>("The product is not present", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("The code is not present", HttpStatus.INTERNAL_SERVER_ERROR);
             }
                 ginseng1.setName(ginseng.getName());
                 ginseng1.setMore_info(ginseng.getMore_info());
                 ginseng1.setSource(ginseng.getSource());
+                ginseng1.setEffect(ginseng.getEffect());
                 ginseng1.setCreated_date(ginseng.getCreated_date());
                 ginseng1.setImg(ginseng.getImg());
                 ginseng1.setImg1(ginseng.getImg1());

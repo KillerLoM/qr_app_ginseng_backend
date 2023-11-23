@@ -12,6 +12,7 @@ import qr.app.backend.model.Wine;
 import qr.app.backend.repo.GinsengRepo;
 import qr.app.backend.repo.WineRepo;
 import qr.app.backend.service.FileUploadService;
+import qr.app.backend.service.ValidGinseng;
 import qr.app.backend.utils.JwtUtils;
 import qr.app.backend.utils.OTPUtils;
 
@@ -30,6 +31,8 @@ public class AddWineController {
     private GinsengRepo ginsengRepo;
     @Autowired
     private FileUploadService fileUploadService;
+    @Autowired
+    private ValidGinseng validGinseng;
     @PostMapping("")
     public ResponseEntity<String> addWine(@RequestHeader(value = "Authorization", required = true) String token,
                                           @RequestPart Wine wine,
@@ -42,11 +45,11 @@ public class AddWineController {
                 return new ResponseEntity<>("The code has been already exit.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             wine.setOtp(otpUtils.generateOtp());
-            Ginseng ginseng = ginsengRepo.findGinsengByCode(wine.getGinseng().getCode());
-            if (ginseng == null) {
+            boolean check = validGinseng.checkValidGinseng(wine.getGinseng().getCode());
+            if (!check) {
                 return new ResponseEntity<>("We don't have this ginseng code", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            wine.setGinseng(ginseng);
+            wine.setGinseng(validGinseng.getGinseng());
             wine.setOtp(otpUtils.generateOtp());
             for (int i = 0; i < Math.min(files.size(), 5); i++) {
                 String filePath = fileUploadService.uploadImageWine(files.get(i));

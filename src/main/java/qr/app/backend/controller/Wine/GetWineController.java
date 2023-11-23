@@ -45,12 +45,9 @@ public class GetWineController {
         response.setWines(wineList);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @GetMapping("/detail")
-    public HttpEntity<?> getWine(@RequestHeader(value = "Authorization")String token,
-                                    @RequestParam()String code){
-        System.out.println(1);
+    @GetMapping("/getProduct")
+    public HttpEntity<?> getWine(@RequestParam()String code){
         try{
-            jwtUtils.validateToken(token);
             Wine wine = wineRepo.findWinesByCodewine(code);
             return new ResponseEntity<>(wine, HttpStatus.OK);
         } catch (Exception e) {

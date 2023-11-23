@@ -14,16 +14,19 @@ import java.util.List;
 public class WineDto {
     private String codewine;
     private String namewine;
-    private String otp;
-    private  String imagewine1;
     private  String volumewine;
+    private int cc;
     private Date created_date;
-    private  String imagewine2;
-    private  String imagewine3;
-    private  String imagewine4;
-    private  String imagewine5;
+    private String effect;
+    private  String moreinfo;
+    private  String image;
+    private  String image1;
+    private  String image2;
+    private  String image3;
+    private  String image4;
     private String qr;
     private boolean is_hidden;
+    private String otp;
     private Ginseng ginseng;
     private List<Ginseng> ginsengs;
 }
