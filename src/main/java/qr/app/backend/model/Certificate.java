@@ -16,5 +16,5 @@ public class Certificate {
     private String namecerti;
     private String description;
     private Date dated;
-    private String source;
+    private String certificate;
 }

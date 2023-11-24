@@ -12,9 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertiDto {
+    private int id;
     private String avatar;
     private String namecerti;
     private String description;
     private Date dated;
-    private String source;
+    private String certificate;
 }

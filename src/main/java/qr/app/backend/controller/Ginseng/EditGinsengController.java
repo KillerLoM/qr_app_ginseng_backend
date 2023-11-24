@@ -23,8 +23,7 @@ public class EditGinsengController {
     private JwtUtils jwtUtils;
     @Autowired
     private GinsengRepo ginsengRepo;
-    @Autowired
-    private ModelMapper modelMapper;
+
 
     @Autowired
     private FileUploadService fileUploadService;
